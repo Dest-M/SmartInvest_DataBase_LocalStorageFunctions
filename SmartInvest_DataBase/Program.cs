@@ -3,6 +3,7 @@ using System.Data.Common;
 using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.Data.Sqlite;
+using SmartInvest_DataBase;
 
 
 // Company Name:        SmartInvest
@@ -46,27 +47,27 @@ if (!File.Exists(filename))
 {
     File.Create(filename).Close();
 
+
+    using SqliteConnection connection = new SqliteConnection(conStr);
+
+    connection.Open();
+    using (var command = connection.CreateCommand())
+    {
+        command.CommandType = System.Data.CommandType.Text;
+        command.CommandText = CustomersCreate;
+        command.ExecuteNonQuery();
+        command.CommandText = EmployeeCreate;
+        command.ExecuteNonQuery();
+        command.CommandText = TransactionsCreate;
+        command.ExecuteNonQuery();
+
+
+
+        connection.Close();
+    }
+
 };
-
-using SqliteConnection connection = new SqliteConnection(conStr);
-
-connection.Open();
-using (var command = connection.CreateCommand())
-{
-    command.CommandType = System.Data.CommandType.Text;
-    command.CommandText = CustomersCreate;
-    command.ExecuteNonQuery();
-    command.CommandText = EmployeeCreate;
-    command.ExecuteNonQuery();
-    command.CommandText = TransactionsCreate;
-    command.ExecuteNonQuery();
-
-
-
-}
-
-
-connection.Close();
+Database database = new Database(conStr);
 
 
 
