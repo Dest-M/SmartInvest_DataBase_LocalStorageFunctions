@@ -1,0 +1,16 @@
+https://github.com/AndreyChulov/PV_212_EF_DOT_NET_ADO
+
+Написать отчет:
+a. Где находиться ошибка (файл и строчка)
+    OrdersDB
+    Lines 7,8,9
+
+b. Почему ошибка находиться именно тут?
+
+The lists were created as null
+
+c. Как исправить эту ошибку?
+
+ public List<OrderRow> Orders { get; set; } = new List<OrderRow>();
+ public List<PriceRow> Price { get; set; } = new List<PriceRow>();
+ public List<TaskRow> Tasks { get; set; } = new List<TaskRow>();
