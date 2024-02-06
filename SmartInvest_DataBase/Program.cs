@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using System.Data.Common;
+using System.Diagnostics.Contracts;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Data.Sqlite;
 using SmartInvest_DataBase;
@@ -68,6 +70,72 @@ if (!File.Exists(filename))
 
 };
 Database database = new Database(conStr);
+Fill fill = new Fill();
+bool endflag = false;
+Console.WriteLine("Welcome");
+while (!endflag)
+{
+    Console.WriteLine("Avaliable tables:\n1  Customer\n2  Employee\n3  Transaction\n---------------\nAvaliable actions:\n1 - Display a table\n2 - Enter a new row into a table\n3 - Exit Program");
+    int choice = fill.dumbChoiceCheck(3);
+    switch (choice)
+    {
+        case 1:
+            displayTablechoice();
+            break;
+        case 2:
+            enterTablechoice();
+            break;
+        case 3:
+            endflag = true;
+            break;
+        default:
+            break;
+
+    }
 
 
+
+}
+
+void enterTablechoice()
+{
+    Console.WriteLine("Avaliable tables:\n1  Customer\n2  Employee\n3  Transaction");
+    int choice = fill.dumbChoiceCheck(3);
+    switch (choice)
+    {
+        case 1:
+            fill.fillCustomer(database);
+            break;
+        case 2:
+            fill.fillEmployee(database);
+            break;
+        case 3:
+            fill.fillTransaction(database);
+            break;
+        default:
+            break;
+
+    }
+}
+void displayTablechoice()
+{
+    Console.WriteLine("Avaliable tables:\n*  Customer\n*  Employee\n*  Transaction");
+    int choice = fill.dumbChoiceCheck(3);
+    switch (choice)
+    {
+        case 1:
+            database.displayCustomer();
+            break;
+        case 2:
+            database.displayEmployee();
+            break;
+         case 3:
+            database.displayTransactions();
+            break;
+        default:
+            break;
+        
+    }
+
+}
 

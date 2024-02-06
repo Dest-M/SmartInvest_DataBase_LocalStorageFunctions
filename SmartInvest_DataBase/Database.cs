@@ -14,9 +14,12 @@ namespace SmartInvest_DataBase
         string EmployeesGet = @"SELECT * FROM Employees;";
         string TransactionsGet = @"SELECT * FROM Transactions;";
 
-        List<Customer> _customerList;
-        List<Employee> _employeeList;
-        List<Transaction> _transactionList;
+        List<Customer> _customerList = new List<Customer>();
+        List<Employee> _employeeList = new List<Employee>();
+        List<Transaction> _transactionList = new List<Transaction>();
+        int? customerCurrentId = 1;
+        int? employeeCurrentId = 1;
+        int? transactionCurrentId = 1;
 
         public Database(string conStr)
         {
@@ -77,8 +80,86 @@ namespace SmartInvest_DataBase
                 reader.Close();
 
             }
+            try
+            {
+                customerCurrentId = _customerList.Select(x => x.id).Max();
+                employeeCurrentId = _employeeList.Select(x => x.id).Max();
+                customerCurrentId = _transactionList.Select(x => x.id).Max();
+            }
+            catch
+            {
+                customerCurrentId = 0;
+                employeeCurrentId = 0;
+                transactionCurrentId = 0;
+            }
         }
 
+        public int getCustomerId()
+        {
+            customerCurrentId++;
+            return Convert.ToInt32(customerCurrentId);
+        }
+        public void addCustomer(Customer customer)
+        {
+            _customerList.Add(customer);
+        }
+        public void displayCustomer()
+        {
+            if (_customerList!= null)
+            {
+                Console.WriteLine("\n\nCUSTOMER\n___________________________________________________________________________________\n Id\t|\tFirst Name\t|\tLast Name\t|\tEmail\n___________________________________________________________________________________");
+                foreach (Customer customer in _customerList)
+                {
+                    Console.WriteLine(" " + customer.id.ToString() + "\t|\t" + customer.FirstName + "\t|\t" + customer.LastName + "\t|\t" + customer.Email);
 
+                }
+            }
+        }
+
+        public int getEmployeeId()
+        {
+            employeeCurrentId++;
+            return Convert.ToInt32(employeeCurrentId);
+        }
+
+        public void addEmployee(Employee employee)
+        {
+            _employeeList.Add(employee);
+        }
+
+        public void displayEmployee()
+        {
+            if (_employeeList != null)
+            {
+                Console.WriteLine("\n\nEMPLOYEE\n___________________________________________________________________________________\n Id\t|\tFirst Name\t|\tLast Name\t|\tEmail\t|\tPosition\t|\tSalary\n___________________________________________________________________________________");
+                foreach (Employee employee in _employeeList)
+                {
+                    Console.WriteLine(" " + employee.id.ToString() + "\t|\t" + employee.FirstName + "\t|\t" + employee.LastName + "\t|\t" + employee.Email + "\t|\t" + employee.Position + "\t|\t" + employee.Salary.ToString());
+
+                }
+            }
+        }
+        public int getTransactionId()
+        {
+            transactionCurrentId++;
+            return Convert.ToInt32(transactionCurrentId);
+        }
+        public void addTransaction(Transaction transaction)
+        {
+            _transactionList.Add(transaction);
+        }
+        public void displayTransactions()
+        {
+            if (_transactionList != null)
+            {
+                Console.WriteLine("\n\nTRANSACTION\n___________________________________________________________________________________\n Id\t|\tEmployee ID\t|\tCustomer ID\t|\tDate\t|\tAmount\n___________________________________________________________________________________");
+                foreach (Transaction transaction in _transactionList)
+                {
+                    Console.WriteLine(" " + transaction.id.ToString() + "\t|\t" + transaction.EmployeeInChargeID.ToString() + "\t|\t" + transaction.CustomerID.ToString() + "\t|\t" + transaction.Date.ToString() + "\t|\t" + transaction.Amount.ToString());
+
+                }
+            }
+
+        }
     }
 }
